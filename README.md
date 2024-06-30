@@ -35,7 +35,7 @@ You can rollback after bad installs
 If you have a major failure you can load any desired snapshot from the Grub menu.
 *** Note: that all snapshot whit the exception of the current default will be READ ONLY!.
 you will need to enable write priledges to the snapshot of choise.
-
+```
 snapper ls                  - List the snapshots
 snapper delete 20-30        - Will delete snapshots id 20 to 30  *2* Note:
 snapper rollback 20..21     - Will rollback from 20 to 21 reverse the number to chanbe back 21..20
@@ -43,7 +43,7 @@ snapper rollback 20..21     - Will rollback from 20 to 21 reverse the number to 
 sudo btrfs subvol show /    - Show a list of the of the Subvolumes and other info.
 sudo btrfs subvol list /    - List all the subvolumes and there ID's.
 sudo snapper -c root create -d "**Base system install**"    - Manual snapshots
-
+```
 
 *2* Note: When deleting a pre snapshot, you should always delete its corresponding post snapshot and vice versa.
 

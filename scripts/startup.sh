@@ -1,4 +1,32 @@
 #!/usr/bin/env bash
+# Fixing annoying issue that breaks GitHub Actions
+# shellcheck disable=SC2001
+
+# Cleaning the TTY.
+clear
+
+# Cosmetics (colours for text).
+BOLD='\e[1m'
+BRED='\e[91m'
+BBLUE='\e[34m'  
+BGREEN='\e[92m'
+BYELLOW='\e[93m'
+RESET='\e[0m'
+
+# Pretty print (function).
+info_print () {
+    echo -e "${BOLD}${BGREEN}[ ${BYELLOW}•${BGREEN} ] $1${RESET}"
+}
+
+# Pretty print for input (function).
+input_print () {
+    echo -ne "${BOLD}${BYELLOW}[ ${BGREEN}•${BYELLOW} ] $1${RESET}"
+}
+
+# Alert user of bad input (function).
+error_print () {
+    echo -e "${BOLD}${BRED}[ ${BBLUE}•${BRED} ] $1${RESET}"
+}
 
 logo () {
 # This will be shown on every set as user is progressing
@@ -74,6 +102,7 @@ esac
 
 # @description Disk selection for drive to be used with installation.
 diskpart () {
+info_print "DANGER!!! "
 echo -ne "
 ------------------------------------------------------------------------
     THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK
@@ -101,6 +130,7 @@ echo -ne "
                     Installing Prerequisites
 -------------------------------------------------------------------------
 "
+info_print "installing: gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper "
 pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper
 
 echo -ne "
@@ -128,6 +158,7 @@ echo -ne "
                     Creating Filesystems
 -------------------------------------------------------------------------
 "
+info_print "Creating subvolumes: @, @home, @var, @tmp, @.snapshots"
 # @description Creates the btrfs subvolumes. 
 createsubvolumes () {
     btrfs subvolume create /mnt/@
@@ -196,6 +227,7 @@ mkdir -p /mnt/boot/efi
 mount -t vfat -L EFIBOOT /mnt/boot/
 
 if ! grep -qs '/mnt' /proc/mounts; then
+    error_print "Error:, please try again."
     echo "Drive is not mounted can not continue"
     echo "Rebooting in 3 Seconds ..." && sleep 1
     echo "Rebooting in 2 Seconds ..." && sleep 1
@@ -208,7 +240,30 @@ echo -ne "
                     Enabling Essential Services
 -------------------------------------------------------------------------
 "
+# Enabling various services.
+info_print "Enabling automatic snapshots, BTRFS scrubbing and systemd-oomd."
+services=(snapper-timeline.timer snapper-cleanup.timer btrfs-scrub@-.timer btrfs-scrub@home.timer btrfs-scrub@var-log.timer btrfs-scrub@\\x2esnapshots.timer grub-btrfsd.service systemd-oomd)
+for service in "${services[@]}"; do
+    systemctl enable "$service" --root=/mnt &>/dev/null
+done
 
+# Boot backup hook.
+info_print "Configuring /boot backup when pacman transactions are made."
+mkdir /mnt/etc/pacman.d/hooks
+cat > /mnt/etc/pacman.d/hooks/50-bootbackup.hook <<EOF
+[Trigger]
+Operation = Upgrade
+Operation = Install
+Operation = Remove
+Type = Path
+Target = usr/lib/modules/*/vmlinuz
+
+[Action]
+Depends = rsync
+Description = Backing up /boot...
+When = PostTransaction
+Exec = /usr/bin/rsync -a --delete /boot /.bootbackup
+EOF
 
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
 echo -ne "
@@ -227,12 +282,16 @@ cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
 
 fi
 
-
 # Starting functions
+info_print "Welcome this script is made to simplify the process of installing BTRFS-Snapper."
+PS3="Please follow the prompts: "
 logo
 diskpart
 clear
 logo
 filesystem
 clear
-
+info_print "We are all done installing BTRFS-Snapper."
+# Finishing up.
+info_print "You may now wish to reboot."
+exit

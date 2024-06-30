@@ -34,6 +34,7 @@ set_option() {
 
 # @description This function will handle file systems. At this movement we are handling only
 # btrfs and ext4. Others will be added in future.
+
 filesystem () {
 echo -ne "
 Please Select your file system for both boot and root

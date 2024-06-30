@@ -30,7 +30,7 @@ error_print () {
 
 logo () {
 # This will be shown on every set as user is progressing
-echo -ne "
+echo -ne "${BOLD}${BBlue}
 -------------------------------------------------------------------------
  █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗███████╗
 ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██╔════╝
@@ -41,7 +41,7 @@ echo -ne "
 ------------------------------------------------------------------------
             Please select presetup settings for your system              
 ------------------------------------------------------------------------
-"
+${RESET}"
 }
 
 # @setting CONFIG_FILE string[$CONFIGS_DIR/setup.conf] Location of setup.conf to be used by set_option and all subsequent scripts. 
@@ -130,8 +130,8 @@ echo -ne "
                     Installing Prerequisites
 -------------------------------------------------------------------------
 "
-info_print "installing: gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper "
-pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper
+info_print "installing: gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync"
+pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync
 
 echo -ne "
 -------------------------------------------------------------------------

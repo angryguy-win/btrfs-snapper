@@ -32,7 +32,7 @@ which  can be found:
 
 You can rollback after bad installs
 
-If you have a catustrophic failure you can load any desired snapshot from the Grub menu.
+If you have a major failure you can load any desired snapshot from the Grub menu.
 *** Note: that all snapshot whit the exception of the current default will be READ ONLY!.
 you will need to enable write priledges to the snapshot of choise.
 

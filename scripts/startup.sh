@@ -53,6 +53,10 @@ fi
 # @description set options in setup.conf
 # @arg $1 string Configuration variable.
 # @arg $2 string Configuration value.
+source $CONFIGS_DIR/setup.conf
+source $HOME/ArchTitus/configs/setup.conf
+
+
 set_option() {
     if grep -Eq "^${1}.*" $CONFIG_FILE; then # check if option exists
         sed -i -e "/^${1}.*/d" $CONFIG_FILE # delete option if exists
@@ -293,5 +297,16 @@ filesystem
 clear
 info_print "We are all done installing BTRFS-Snapper."
 # Finishing up.
+echo -ne "
+-------------------------------------------------------------------------
+                    Cleaning
+-------------------------------------------------------------------------
+"
+
+rm -r $HOME/ArchTitus
+rm -r /home/$USERNAME/ArchTitus
+
+# Replace in the same state
+cd $pwd
 info_print "You may now wish to reboot."
 exit

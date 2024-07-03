@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 #github-action genshdoc
 #
+## This code was made posible by the use of code from Chris Titus..
+## Arch Titus install script.
+## Added BTRFS/Snapper functionality, and Grub snapshot updates.
+## and required configurations.
+#
 ## Create an Install setup script point to the scripts..
 
 # Find the name of the folder the scripts are in

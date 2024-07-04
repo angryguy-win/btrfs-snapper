@@ -2,60 +2,114 @@
 # Fixing annoying issue that breaks GitHub Actions
 # shellcheck disable=SC2001
 
-# Cleaning the TTY.
+#github-action genshdoc
+#
+# @file Startup
+# @brief This script will ask users about their prefrences like disk, file system, timezone, keyboard layout, user name, password, etc.
+# @stdout Output routed to startup.log
+# @stderror Output routed to startup.log
+## Cleaning the TTY.
 clear
 
-# Cosmetics (colours for text).
-BOLD='\e[1m'
-BRED='\e[91m'
-BBLUE='\e[34m'  
-BGREEN='\e[92m'
-BYELLOW='\e[93m'
-RESET='\e[0m'
+## (colours for text banners).
+RED='\033[0;31m'
+BLUE='\033[0;34m'  
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RESET='\033[0m'     ## No Color
 
-# Pretty print (function).
-info_print () {
-    echo -e "${BOLD}${BGREEN}[ ${BYELLOW}•${BGREEN} ] $1${RESET}"
-}
+## ---------------------------------------------------------------------------
+## The Function begin here..
 
-# Pretty print for input (function).
-input_print () {
-    echo -ne "${BOLD}${BYELLOW}[ ${BGREEN}•${BYELLOW} ] $1${RESET}"
-}
+## For printing out the info banners
+print_the () {
+    
+## syntax use
+## print_the info "Some important message"
+## print_the error " Some important error"
 
-# Alert user of bad input (function).
-error_print () {
-    echo -e "${BOLD}${BRED}[ ${BBLUE}•${BRED} ] $1${RESET}"
-}
+info=$2
+arg1=$1
 
-logo () {
-# This will be shown on every set as user is progressing
-echo -ne "${BOLD}${BBlue}
--------------------------------------------------------------------------
- █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗███████╗
-██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██╔════╝
-███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ███████╗
-██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ╚════██║
-██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ███████║
-╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝   ╚══════╝
-------------------------------------------------------------------------
-            Please select presetup settings for your system              
-------------------------------------------------------------------------
+if [ "$arg1" == "info" ]; then
+    color=${GREEN}
+elif [ "$arg1" == "error" ]; then 
+    color=${RED}
+else
+    color=${RED} 
+    info="Error whit the Title check your input"
+fi
+
+echo -ne "
+${BLUE}-------------------------------------------------------------------------
+           ${color} $info
+${BLUE}-------------------------------------------------------------------------
 ${RESET}"
 }
 
-# @setting CONFIG_FILE string[$CONFIGS_DIR/setup.conf] Location of setup.conf to be used by set_option and all subsequent scripts. 
-CONFIG_FILE=$CONFIGS_DIR/setup.conf
-if [ ! -f $CONFIG_FILE ]; then # check if file exists
-    touch -f $CONFIG_FILE # create file if not exists
+print_line () {
+
+## syntax use
+## print_line info "Some important message"
+## print_line error " Some important error"
+
+arg2=$1
+pl=$2
+
+if [ "$arg2" == "info" ]; then
+    color=${GREEN}
+elif [ "$arg2" == "error" ]; then 
+    color=${RED}
+else
+    color=${RED} 
+    info="Error whit the Title check your input"
 fi
 
-# @description set options in setup.conf
-# @arg $1 string Configuration variable.
-# @arg $2 string Configuration value.
-source $CONFIGS_DIR/setup.conf
-source $HOME/ArchTitus/configs/setup.conf
+echo -ne "
+${color} $pl
+${RESET}"
+}
 
+logo () {
+# This will display the Logo banner and a message
+
+logo_message=$1
+
+echo -ne "
+${BLUE}-------------------------------------------------------------------------
+${GREEN}
+ █████╗ ██████╗  ██████╗██╗  ██╗     ██╗████████╗
+██╔══██╗██╔══██╗██╔════╝██║  ██║     ██║╚══██╔══╝
+███████║██████╔╝██║     ███████║     ██║   ██║   
+██╔══██║██╔══██╗██║     ██╔══██║     ██║   ██║   
+██║  ██║██║  ██║╚██████╗██║  ██║     ██║   ██║    ██║
+╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝     ╚═╝   ╚═╝   ╚══╝
+${BLUE}------------------------------------------------------------------------
+            ${GREEN} $logo_message
+${BLUE}------------------------------------------------------------------------
+${RESET}"
+}
+
+thanks () {
+## This will show the Thank yoo banner logo and
+## Pause for 3 sec's of thank you's 
+
+echo -ne "
+${BLUE}-------------------------------------------------------------------------
+${GREEN}
+ █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
+██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
+███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
+██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
+██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
+╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
+${BLUE}------------------------------------------------------------------------
+    ${GREEN} A special thank's to Chris Titus for inspering this code!.             
+${BLUE}------------------------------------------------------------------------
+${RESET}
+sleep .3
+"
+}
 
 set_option() {
     if grep -Eq "^${1}.*" $CONFIG_FILE; then # check if option exists
@@ -106,65 +160,101 @@ esac
 
 # @description Disk selection for drive to be used with installation.
 diskpart () {
-info_print "DANGER!!! "
-echo -ne "
-------------------------------------------------------------------------
-    THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK
-    Please make sure you know what you are doing because
-    after formating your disk there is no way to get data back
-------------------------------------------------------------------------
+    print_the info "DANGER!!!\n
+        THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK
+        Please make sure you know what you are doing because
+        after formating your disk there is no way to get data back"
 
-"
+    PS3='
+    Select the disk to install on: '
+    options=($(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print "/dev/"$2"|"$3}'))
 
-PS3='
-Select the disk to install on: '
-options=($(lsblk -n --output TYPE,KNAME,SIZE | awk '$1=="disk"{print "/dev/"$2"|"$3}'))
+    select_option $? 1 "${options[@]}"
+    disk=${options[$?]%|*}
 
-select_option $? 1 "${options[@]}"
-disk=${options[$?]%|*}
+    echo -e "\n${disk%|*} selected \n"
+        set_option DISK ${disk%|*}
 
-echo -e "\n${disk%|*} selected \n"
-    set_option DISK ${disk%|*}
-
-drivessd
+    drivessd
 }
 
-echo -ne "
--------------------------------------------------------------------------
-                    Installing Prerequisites
--------------------------------------------------------------------------
-"
-info_print "installing: gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync"
-pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync
+install_pre_req1 () {
+    print_the info "Installing Prerequisites"
 
-echo -ne "
--------------------------------------------------------------------------
-                    Formating Disk
--------------------------------------------------------------------------
-"
-umount -A --recursive /mnt # make sure everything is unmounted before we start
-# disk prep
-sgdisk -Z ${DISK} # zap all on disk
-sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
+    print_line info "installing: gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync"
+    pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync
+}
 
-# create partitions
-sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition)
-sgdisk -n 2::+300M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
-sgdisk -n 3::-0 --typecode=3:8300 --change-name=3:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
-if [[ ! -d "/sys/firmware/efi" ]]; then # Checking for bios system
-    sgdisk -A 1:set:2 ${DISK}
-fi
-partprobe ${DISK} # reread partition table to ensure it is correct
+disk_format () {
 
-# make filesystems
-echo -ne "
--------------------------------------------------------------------------
-                    Creating Filesystems
--------------------------------------------------------------------------
-"
-info_print "Creating subvolumes: @, @home, @var, @tmp, @.snapshots"
+    print_the info "Creating the Partitiion"
+
+    umount -A --recursive /mnt # make sure everything is unmounted before we start
+    # disk prep
+    sgdisk -Z ${DISK} # zap all on disk
+    sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
+
+    # create partitions
+    sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition)
+    sgdisk -n 2::+300M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
+    sgdisk -n 3::-0 --typecode=3:8300 --change-name=3:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
+    if [[ ! -d "/sys/firmware/efi" ]]; then # Checking for bios system
+        sgdisk -A 1:set:2 ${DISK}
+    fi
+    partprobe ${DISK} # reread partition table to ensure it is correct
+
+    if [[ "${DISK}" =~ "nvme" ]]; then
+        partition2=${DISK}p2
+        partition3=${DISK}p3
+    else
+        partition2=${DISK}2
+        partition3=${DISK}3
+    fi
+
+    print_the info "Formating the Disk"
+
+    if [[ "${FS}" == "btrfs" ]]; then
+        mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
+        mkfs.btrfs -L ROOT ${partition3} -f
+        mount -t btrfs ${partition3} /mnt
+        subvolumesetup
+    elif [[ "${FS}" == "ext4" ]]; then
+        mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
+        mkfs.ext4 -L ROOT ${partition3}
+        mount -t ext4 ${partition3} /mnt
+    elif [[ "${FS}" == "luks" ]]; then
+        mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
+    # enter luks password to cryptsetup and format root partition
+        echo -n "${LUKS_PASSWORD}" | cryptsetup -y -v luksFormat ${partition3} -
+    # open luks container and ROOT will be place holder 
+        echo -n "${LUKS_PASSWORD}" | cryptsetup open ${partition3} ROOT -
+    # now format that container
+        mkfs.btrfs -L ROOT ${partition3}
+    # create subvolumes for btrfs
+        mount -t btrfs ${partition3} /mnt
+        subvolumesetup
+    # store uuid of encrypted partition for grub
+        echo ENCRYPTED_PARTITION_UUID=$(blkid -s UUID -o value ${partition3}) >> $CONFIGS_DIR/setup.conf
+    fi
+
+    # mount target
+    mkdir -p /mnt/boot/efi
+    mount -t vfat -L EFIBOOT /mnt/boot/
+
+    if ! grep -qs '/mnt' /proc/mounts; then
+        echo "Drive is not mounted can not continue"
+        echo "Rebooting in 3 Seconds ..." && sleep 1
+        echo "Rebooting in 2 Seconds ..." && sleep 1
+        echo "Rebooting in 1 Second ..." && sleep 1
+        reboot now
+    fi
+}
+
 # @description Creates the btrfs subvolumes. 
 createsubvolumes () {
+    # make filesystems
+    print_the info "Creating Filesystems"
+    print_line info "Creating subvolumes: @, @home, @var, @tmp, @.snapshots"
     btrfs subvolume create /mnt/@
     btrfs subvolume create /mnt/@home
     btrfs subvolume create /mnt/@var
@@ -174,6 +264,7 @@ createsubvolumes () {
 
 # @description Mount all btrfs subvolumes after root has been mounted.
 mountallsubvol () {
+    print_the info "Creating the fstab and mounting the subvolumes"
     mount -o ${MOUNT_OPTIONS},subvol=@home ${partition3} /mnt/home
     mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
     mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
@@ -194,65 +285,22 @@ subvolumesetup () {
     mountallsubvol
 }
 
-if [[ "${DISK}" =~ "nvme" ]]; then
-    partition2=${DISK}p2
-    partition3=${DISK}p3
-else
-    partition2=${DISK}2
-    partition3=${DISK}3
-fi
+ena_essential_ser () {
 
-if [[ "${FS}" == "btrfs" ]]; then
-    mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
-    mkfs.btrfs -L ROOT ${partition3} -f
-    mount -t btrfs ${partition3} /mnt
-    subvolumesetup
-elif [[ "${FS}" == "ext4" ]]; then
-    mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
-    mkfs.ext4 -L ROOT ${partition3}
-    mount -t ext4 ${partition3} /mnt
-elif [[ "${FS}" == "luks" ]]; then
-    mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
-# enter luks password to cryptsetup and format root partition
-    echo -n "${LUKS_PASSWORD}" | cryptsetup -y -v luksFormat ${partition3} -
-# open luks container and ROOT will be place holder 
-    echo -n "${LUKS_PASSWORD}" | cryptsetup open ${partition3} ROOT -
-# now format that container
-    mkfs.btrfs -L ROOT ${partition3}
-# create subvolumes for btrfs
-    mount -t btrfs ${partition3} /mnt
-    subvolumesetup
-# store uuid of encrypted partition for grub
-    echo ENCRYPTED_PARTITION_UUID=$(blkid -s UUID -o value ${partition3}) >> $CONFIGS_DIR/setup.conf
-fi
+    print_the info "Enabling Essential Services"
 
-# mount target
-mkdir -p /mnt/boot/efi
-mount -t vfat -L EFIBOOT /mnt/boot/
+    # Enabling various services.
+    print_line info "Enabling automatic snapshots, BTRFS scrubbing and systemd-oomd."
+    services=(snapper-timeline.timer snapper-cleanup.timer btrfs-scrub@-.timer btrfs-scrub@home.timer btrfs-scrub@var-log.timer btrfs-scrub@\\x2esnapshots.timer grub-btrfsd.service systemd-oomd)
+    for service in "${services[@]}"; do
+        systemctl enable "$service" --root=/mnt &>/dev/null
+    done
+    
+}
 
-if ! grep -qs '/mnt' /proc/mounts; then
-    error_print "Error:, please try again."
-    echo "Drive is not mounted can not continue"
-    echo "Rebooting in 3 Seconds ..." && sleep 1
-    echo "Rebooting in 2 Seconds ..." && sleep 1
-    echo "Rebooting in 1 Second ..." && sleep 1
-    reboot now
-fi
-
-echo -ne "
--------------------------------------------------------------------------
-                    Enabling Essential Services
--------------------------------------------------------------------------
-"
-# Enabling various services.
-info_print "Enabling automatic snapshots, BTRFS scrubbing and systemd-oomd."
-services=(snapper-timeline.timer snapper-cleanup.timer btrfs-scrub@-.timer btrfs-scrub@home.timer btrfs-scrub@var-log.timer btrfs-scrub@\\x2esnapshots.timer grub-btrfsd.service systemd-oomd)
-for service in "${services[@]}"; do
-    systemctl enable "$service" --root=/mnt &>/dev/null
-done
-
+setup_grub_hooks () {
 # Boot backup hook.
-info_print "Configuring /boot backup when pacman transactions are made."
+print_the info "Configuring /boot backup when pacman transactions are made."
 mkdir /mnt/etc/pacman.d/hooks
 cat > /mnt/etc/pacman.d/hooks/50-bootbackup.hook <<EOF
 [Trigger]
@@ -268,45 +316,189 @@ Description = Backing up /boot...
 When = PostTransaction
 Exec = /usr/bin/rsync -a --delete /boot /.bootbackup
 EOF
+}
 
+create_snapper_config () {
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
-echo -ne "
--------------------------------------------------------------------------
-                    Creating Snapper Config
--------------------------------------------------------------------------
-"
 
-SNAPPER_CONF="$HOME/ArchTitus/configs/etc/snapper/configs/root"
-mkdir -p /etc/snapper/configs/
-cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
+    print_the info "Creating Snapper Config"
 
-SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
-mkdir -p /etc/conf.d/
-cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
+    SNAPPER_CONF="$HOME/ArchTitus/configs/etc/snapper/configs/root"
+    mkdir -p /etc/snapper/configs/
+    cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
+
+    SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
+    mkdir -p /etc/conf.d/
+    cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
 
 fi
+}
 
-# Starting functions
-info_print "Welcome this script is made to simplify the process of installing BTRFS-Snapper."
+arch_check() {
+    if [[ ! -e /etc/arch-release ]]; then
+        print_line error "ERROR! This script must be run in Arch Linux!\n"
+        exit 0
+    fi
+}
+
+pacman_check() {
+    if [[ -f /var/lib/pacman/db.lck ]]; then
+        print_line error "ERROR! Pacman is blocked."
+        print_line info "If not running remove /var/lib/pacman/db.lck.\n"
+        exit 0
+    fi
+}
+
+select_option() {
+
+    # little helpers for terminal print control and key input
+    ESC=$( printf "\033")
+    cursor_blink_on()  { printf "$ESC[?25h"; }
+    cursor_blink_off() { printf "$ESC[?25l"; }
+    cursor_to()        { printf "$ESC[$1;${2:-1}H"; }
+    print_option()     { printf "$2   $1 "; }
+    print_selected()   { printf "$2  $ESC[7m $1 $ESC[27m"; }
+    get_cursor_row()   { IFS=';' read -sdR -p $'\E[6n' ROW COL; echo ${ROW#*[}; }
+    get_cursor_col()   { IFS=';' read -sdR -p $'\E[6n' ROW COL; echo ${COL#*[}; }
+    key_input()         {
+                        local key
+                        IFS= read -rsn1 key 2>/dev/null >&2
+                        if [[ $key = ""      ]]; then echo enter; fi;
+                        if [[ $key = $'\x20' ]]; then echo space; fi;
+                        if [[ $key = "k" ]]; then echo up; fi;
+                        if [[ $key = "j" ]]; then echo down; fi;
+                        if [[ $key = "h" ]]; then echo left; fi;
+                        if [[ $key = "l" ]]; then echo right; fi;
+                        if [[ $key = "a" ]]; then echo all; fi;
+                        if [[ $key = "n" ]]; then echo none; fi;
+                        if [[ $key = $'\x1b' ]]; then
+                            read -rsn2 key
+                            if [[ $key = [A || $key = k ]]; then echo up;    fi;
+                            if [[ $key = [B || $key = j ]]; then echo down;  fi;
+                            if [[ $key = [C || $key = l ]]; then echo right;  fi;
+                            if [[ $key = [D || $key = h ]]; then echo left;  fi;
+                        fi 
+    }
+
+    print_options_multicol() {
+        # print options by overwriting the last lines
+        local curr_col=$1
+        local curr_row=$2
+        local curr_idx=0
+
+        local idx=0
+        local row=0
+        local col=0
+        
+        curr_idx=$(( $curr_col + $curr_row * $colmax ))
+        
+        for option in "${options[@]}"; do
+
+            row=$(( $idx/$colmax ))
+            col=$(( $idx - $row * $colmax ))
+
+            cursor_to $(( $startrow + $row + 1)) $(( $offset * $col + 1))
+            if [ $idx -eq $curr_idx ]; then
+                print_selected "$option"
+            else
+                print_option "$option"
+            fi
+            ((idx++))
+        done
+    }
+
+    # initially print empty new lines (scroll down if at bottom of screen)
+    for opt; do printf "\n"; done
+
+    # determine current screen position for overwriting the options
+    local return_value=$1
+    local lastrow=`get_cursor_row`
+    local lastcol=`get_cursor_col`
+    local startrow=$(($lastrow - $#))
+    local startcol=1
+    local lines=$( tput lines )
+    local cols=$( tput cols ) 
+    local colmax=$2
+    local offset=$(( $cols / $colmax ))
+
+    local size=$4
+    shift 4
+
+    # ensure cursor and input echoing back on upon a ctrl+c during read -s
+    trap "cursor_blink_on; stty echo; printf '\n'; exit" 2
+    cursor_blink_off
+
+    local active_row=0
+    local active_col=0
+    while true; do
+        print_options_multicol $active_col $active_row 
+        # user key control
+        case `key_input` in
+            enter)  break;;
+            up)     ((active_row--));
+                    if [ $active_row -lt 0 ]; then active_row=0; fi;;
+            down)   ((active_row++));
+                    if [ $active_row -ge $(( ${#options[@]} / $colmax ))  ]; then active_row=$(( ${#options[@]} / $colmax )); fi;;
+            left)     ((active_col=$active_col - 1));
+                    if [ $active_col -lt 0 ]; then active_col=0; fi;;
+            right)     ((active_col=$active_col + 1));
+                    if [ $active_col -ge $colmax ]; then active_col=$(( $colmax - 1 )) ; fi;;
+        esac
+    done
+
+    # cursor position back to normal
+    cursor_to $lastrow
+    printf "\n"
+    cursor_blink_on
+
+    return $(( $active_col + $active_row * $colmax ))
+}
+
+## ^^^ The function are all above
+## ----------------------------------------------------------------------------------------
+## Starting the script
+
+## Prepare the system, create tempoary config file
+
+# @setting CONFIG_FILE string[$CONFIGS_DIR/setup.conf] Location of setup.conf to be used by set_option and all subsequent scripts. 
+CONFIG_FILE=$CONFIGS_DIR/setup.conf
+if [ ! -f $CONFIG_FILE ]; then # check if file exists
+    touch -f $CONFIG_FILE # create file if not exists
+fi
+
+## System Checks
+arch_check
+pacman_check
+
+# @description set options in setup.conf
+set_option
+
+## 
+source $CONFIGS_DIR/setup.conf
+source $HOME/ArchTitus/configs/setup.conf
+
+## Display the Thank you logo banner
+thanks
+## Display the goal of this script
+logo "Welcome this script is made to simplify the process of installing BTRFS-Snapper.\n"
 PS3="Please follow the prompts: "
-logo
+clear
+logo "Please select presetup settings for your system"
+
+## Prepare the Disk/SSD
 diskpart
-clear
-logo
 filesystem
-clear
-info_print "We are all done installing BTRFS-Snapper."
-# Finishing up.
-echo -ne "
--------------------------------------------------------------------------
-                    Cleaning
--------------------------------------------------------------------------
-"
+print_the info "Formating Disk"
+disk_format
+
+## Finishing up.
+print_line info "We are all done installing BTRFS-Snapper.\n"
+print_line info "Cleaning up\n"
 
 rm -r $HOME/ArchTitus
 rm -r /home/$USERNAME/ArchTitus
 
-# Replace in the same state
+## Replace in the same state
 cd $pwd
-info_print "You may now wish to reboot."
-exit
+print_line info "You may now wish to reboot."
+# exit

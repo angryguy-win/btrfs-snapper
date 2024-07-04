@@ -4,7 +4,7 @@
         Step 1: Download the Arch Linux ISO
         Step 2: Create a live USB of Arch Linux
         Step 3: Boot from the live USB
-            Not using US keyboard? Read this
+    
         Step 4: Partition the disks
             Check if you have UEFI mode enabled
             Create an ESP partition (For UEFI systems only)
@@ -12,6 +12,8 @@
         Step 4: Create filesystem
             Creating filesystem for UEFI system
             Creating filesystem for non-UEFI system
+            Crete Subvolumes
+            
         Step 5: Connect to WiFi
         Step 6: Select an appropriate mirror
         Step 7: Install Arch Linux

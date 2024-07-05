@@ -154,5 +154,6 @@ https://wiki.archlinux.org/title/snapper
 
 ![image](https://github.com/angryguy-win/btrfs-snapper/assets/162399710/8a1a028a-052e-41fc-a820-921efecb182d)
 
-![image](https://github.com/angryguy-win/btrfs-snapper/assets/162399710/f568f015-65b3-4c81-83ff-0e51a67a882c)
+![image](https://github.com/angryguy-win/btrfs-snapper/assets/162399710/a95be1b2-1940-487b-afcd-0c875aee19c2)
+
 

@@ -318,22 +318,6 @@ Exec = /usr/bin/rsync -a --delete /boot /.bootbackup
 EOF
 }
 
-create_snapper_config () {
-if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
-
-    print_the info "Creating Snapper Config"
-
-    SNAPPER_CONF="$HOME/ArchTitus/configs/etc/snapper/configs/root"
-    mkdir -p /etc/snapper/configs/
-    cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
-
-    SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
-    mkdir -p /etc/conf.d/
-    cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
-
-fi
-}
-
 arch_check() {
     if [[ ! -e /etc/arch-release ]]; then
         print_line error "ERROR! This script must be run in Arch Linux!\n"
@@ -454,6 +438,89 @@ select_option() {
     return $(( $active_col + $active_row * $colmax ))
 }
 
+create_and_copy_snapper_config() {
+    local filename="root"
+    local snapper_dir="/etc/snapper/configs"
+
+    # Create the text file
+    echo "
+    # /etc/snapper/configs/root
+    # subvolume to snapshot
+    SUBVOLUME="/"
+
+    # filesystem type
+    FSTYPE="btrfs"
+
+    # btrfs qgroup for space aware cleanup algorithms
+    QGROUP=""
+
+    # fraction or absolute size of the filesystems space the snapshots may use
+    SPACE_LIMIT="0.5"
+
+    # fraction or absolute size of the filesystems space that should be free
+    FREE_LIMIT="0.2"
+
+    # users and groups allowed to work with config
+    ALLOW_USERS=""
+    ALLOW_GROUPS="wheel"
+
+    # sync users and groups from ALLOW_USERS and ALLOW_GROUPS to .snapshots
+    # directory
+    SYNC_ACL="yes"
+
+    # start comparing pre- and post-snapshot in background after creating
+    # post-snapshot
+    BACKGROUND_COMPARISON="yes"
+
+    # run daily number cleanup
+    NUMBER_CLEANUP="yes"
+
+    # limit for number cleanup
+    NUMBER_MIN_AGE="3600"
+    NUMBER_LIMIT="10"
+    NUMBER_LIMIT_IMPORTANT="10"
+
+    # create hourly snapshots
+    TIMELINE_CREATE="yes"
+
+    # cleanup hourly snapshots after some time
+    TIMELINE_CLEANUP="yes"
+
+    # limits for timeline cleanup
+    TIMELINE_MIN_AGE="3600"
+    TIMELINE_LIMIT_HOURLY="5"
+    TIMELINE_LIMIT_DAILY="7"
+    TIMELINE_LIMIT_WEEKLY="0"
+    TIMELINE_LIMIT_MONTHLY="0"
+    TIMELINE_LIMIT_QUARTERLY="0"
+    TIMELINE_LIMIT_YEARLY="0"
+
+    # cleanup empty pre-post-pairs
+    EMPTY_PRE_POST_CLEANUP="yes"
+
+    # limits for empty pre-post-pair cleanup
+    EMPTY_PRE_POST_MIN_AGE="3600"
+    " > "$filename"
+
+    # Copy to snapper directory
+    sudo mv "$filename" "$snapper_dir"
+}
+# Function to create a snapper configuration and update /etc/conf.d/snapper
+snapper_root_config() {
+    local config_name="root"
+    local content="## Path: System/Snapper
+## Type:        string
+## Default:     \"\"
+# List of snapper configurations.
+SNAPPER_CONFIGS=\"$config_name\""
+
+    # Create the text file
+    echo "$content" > snapper.txt
+
+    # Move to /etc/conf.d/snapper
+    sudo mv snapper.txt /etc/conf.d/snapper
+}
+
 ## ^^^ The function are all above
 ## ----------------------------------------------------------------------------------------
 ## Starting the script
@@ -495,7 +562,8 @@ disk_format
 install_pre_req1
 ena_essential_services
 setup_grub_hooks
-create_snapper_config
+create_and_copy_snapper_config
+snapper_root_config
 
 ## Finishing up.
 print_line info "We are all done installing BTRFS-Snapper.\n"

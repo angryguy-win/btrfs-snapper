@@ -22,140 +22,141 @@ RESET='\033[0m'     ## No Color
 ## The Function begin here..
 
 ## For printing out the info banners
+# @description Print a title with a message.
 print_the () {
     
-## syntax use
-## print_the info "Some important message"
-## print_the error " Some important error"
+    ## syntax use
+    ## print_the info "Some important message"
+    ## print_the error "Some important error"
 
-local info=$2
-local arg1=$1
+    local info=$2
+    local arg1=$1
 
-if [ "$arg1" == "info" ]; then
-    color=${GREEN}
-elif [ "$arg1" == "error" ]; then 
-    color=${RED}
-else
-    color=${RED} 
-    info="Error whit the Title check your input"
-fi
+    if [ "$arg1" == "info" ]; then
+        color=${GREEN}
+    elif [ "$arg1" == "error" ]; then 
+        color=${RED}
+    else
+        color=${RED} 
+        info="Error with the Title check your input"
+    fi
 
-echo -ne "
-${BLUE}-------------------------------------------------------------------------
-           ${color} $info
-${BLUE}-------------------------------------------------------------------------
-${RESET}"
+    echo -ne "
+    ${BLUE}-------------------------------------------------------------------------
+               ${color} $info
+    ${BLUE}-------------------------------------------------------------------------
+    ${RESET}"
 }
-
+# @description Print a line with a title.
 print_line () {
 
-## syntax use
-## print_line info "Some important message"
-## print_line error " Some important error"
+    ## syntax use
+    ## print_line info "Some important message"
+    ## print_line error " Some important error"
 
-local arg2=$1
-local pl=$2
+    local arg2=$1
+    local pl=$2
 
-if [ "$arg2" == "info" ]; then
-    color=${GREEN}
-elif [ "$arg2" == "error" ]; then 
-    color=${RED}
-else
-    color=${RED} 
-    info="Error whit the Title check your input"
-fi
-
-echo -ne "
-${color} $pl
-${RESET}"
-}
-
-logo () {
-# This will display the Logo banner and a message
-
-logo_message=$1
-
-echo -ne "
-${BLUE}-------------------------------------------------------------------------
-${GREEN}
- █████╗ ██████╗  ██████╗██╗  ██╗     ██╗████████╗
-██╔══██╗██╔══██╗██╔════╝██║  ██║     ██║╚══██╔══╝
-███████║██████╔╝██║     ███████║     ██║   ██║   
-██╔══██║██╔══██╗██║     ██╔══██║     ██║   ██║   
-██║  ██║██║  ██║╚██████╗██║  ██║     ██║   ██║    ██║
-╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝     ╚═╝   ╚═╝   ╚══╝
-${BLUE}------------------------------------------------------------------------
-            ${GREEN} $logo_message
-${BLUE}------------------------------------------------------------------------
-${RESET}"
-}
-
-thanks () {
-## This will show the Thank yoo banner logo and
-## Pause for 3 sec's of thank you's 
-
-echo -ne "
-${BLUE}-------------------------------------------------------------------------
-${GREEN}
- █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
-${BLUE}------------------------------------------------------------------------
-    ${GREEN} A special thank's to Chris Titus for inspering this code!.             
-${BLUE}------------------------------------------------------------------------
-${RESET}
-sleep .3
-"
-}
-
-set_option() {
-    if grep -Eq "^${1}.*" $CONFIG_FILE; then # check if option exists
-        sed -i -e "/^${1}.*/d" $CONFIG_FILE # delete option if exists
+    if [ "$arg2" == "info" ]; then
+        color=${GREEN}
+    elif [ "$arg2" == "error" ]; then 
+        color=${RED}
+    else
+        color=${RED} 
+        info="Error with the Title check your input"
     fi
-    echo "${1}=${2}" >>$CONFIG_FILE # add option
+
+    echo -ne "
+    ${color} $pl
+    ${RESET}"
+}
+# @description Logo banner for the script.
+logo () {
+    # This will display the Logo banner and a message
+
+    logo_message=$1
+
+    echo -ne "
+    ${BLUE}-------------------------------------------------------------------------
+    ${GREEN}
+     █████╗ ██████╗  ██████╗██╗  ██╗     ██╗████████╗
+    ██╔══██╗██╔══██╗██╔════╝██║  ██║     ██║╚══██╔══╝
+    ███████║██████╔╝██║     ███████║     ██║   ██║   
+    ██╔══██║██╔══██╗██║     ██╔══██║     ██║   ██║   
+    ██║  ██║██║  ██║╚██████╗██║  ██║     ██║   ██║    ██║
+    ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝     ╚═╝   ╚═╝   ╚══╝
+    ${BLUE}------------------------------------------------------------------------
+                ${GREEN} $logo_message
+    ${BLUE}------------------------------------------------------------------------
+    ${RESET}"
+}
+# @description Say thank you to Chris Titus for inspiring this code.
+thanks () {
+    ## This will show the Thank you banner logo and
+    ## Pause for 3 sec's of thank you's 
+
+    echo -ne "
+    ${BLUE}-------------------------------------------------------------------------
+    ${GREEN}
+     █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
+    ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
+    ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
+    ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
+    ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
+    ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
+    ${BLUE}------------------------------------------------------------------------
+        ${GREEN} A special thank's to Chris Titus for inspiring this code!.             
+    ${BLUE}------------------------------------------------------------------------
+    ${RESET}
+    sleep .3
+    "
+}
+# @description Check the config file for the option and set it.
+set_option() {
+    if grep -Eq "^${1}.*" "$CONFIG_FILE"; then # check if option exists
+        sed -i -e "/^${1}.*/d" "$CONFIG_FILE" # delete option if exists
+    fi
+    echo "${1}=${2}" >> "$CONFIG_FILE" # add option
 }
 
 # @description This function will handle file systems. At this movement we are handling only
 # btrfs and ext4. Others will be added in future.
 
 filesystem () {
-echo -ne "
-Please Select your file system for both boot and root
-"
-options=("btrfs" "ext4" "luks" "exit")
-select_option $? 1 "${options[@]}"
+    echo -ne "
+    Please Select your file system for both boot and root
+    "
+    options=("btrfs" "ext4" "luks" "exit")
+    select_option $? 1 "${options[@]}"
 
-case $? in
-0) set_option FS btrfs;;
-1) set_option FS ext4;;
-2) 
-    set_password "LUKS_PASSWORD"
-    set_option FS luks
-    ;;
-3) exit ;;
-*) echo "Wrong option please select again"; filesystem;;
-esac
+    case $? in
+    0) set_option FS btrfs;;
+    1) set_option FS ext4;;
+    2) 
+        set_password "LUKS_PASSWORD"
+        set_option FS luks
+        ;;
+    3) exit ;;
+    *) echo "Wrong option please select again"; filesystem;;
+    esac
 }
 
 # @description Choose whether drive is SSD or not.
 drivessd () {
-echo -ne "
-Is this an ssd? yes/no:
-"
+    echo -ne "
+    Is this an ssd? yes/no:
+    "
 
-options=("Yes" "No")
-select_option $? 1 "${options[@]}"
+    options=("Yes" "No")
+    select_option $? 1 "${options[@]}"
 
-case ${options[$?]} in
-    y|Y|yes|Yes|YES)
-    set_option MOUNT_OPTIONS "noatime,compress=zstd,ssd,commit=120";;
-    n|N|no|NO|No)
-    set_option MOUNT_OPTIONS "noatime,compress=zstd,commit=120";;
-    *) echo "Wrong option. Try again";drivessd;;
-esac
+    case ${options[$?]} in
+        y|Y|yes|Yes|YES)
+        set_option MOUNT_OPTIONS "noatime,compress=zstd,ssd,commit=120";;
+        n|N|no|NO|No)
+        set_option MOUNT_OPTIONS "noatime,compress=zstd,commit=120";;
+        *) echo "Wrong option. Try again";drivessd;;
+    esac
 }
 
 # @description Disk selection for drive to be used with installation.
@@ -163,7 +164,7 @@ diskpart () {
     print_the info "DANGER!!!\n
         THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK
         Please make sure you know what you are doing because
-        after formating your disk there is no way to get data back"
+        after formatting your disk there is no way to get data back"
 
     PS3='
     Select the disk to install on: '
@@ -173,68 +174,68 @@ diskpart () {
     disk=${options[$?]%|*}
 
     echo -e "\n${disk%|*} selected \n"
-        set_option DISK ${disk%|*}
+    set_option DISK "${disk%|*}"
 
     drivessd
 }
-
+# @description Install pre requisites for BTRFS-Snapper.
 install_pre_req1 () {
     print_the info "Installing Prerequisites"
 
     print_line info "installing: gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync"
     pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync
 }
-
+# @description Format the disk and create partitions.
 disk_format () {
 
-    print_the info "Creating the Partitiion"
+    print_the info "Creating the Partition"
 
     umount -A --recursive /mnt # make sure everything is unmounted before we start
     # disk prep
-    sgdisk -Z ${DISK} # zap all on disk
-    sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
+    sgdisk -Z "${DISK}" # zap all on disk
+    sgdisk -a 2048 -o "${DISK}" # new gpt disk 2048 alignment
 
     # create partitions
-    sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition)
-    sgdisk -n 2::+300M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
-    sgdisk -n 3::-0 --typecode=3:8300 --change-name=3:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
+    sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' "${DISK}" # partition 1 (BIOS Boot Partition)
+    sgdisk -n 2::+300M --typecode=2:ef00 --change-name=2:'EFIBOOT' "${DISK}" # partition 2 (UEFI Boot Partition)
+    sgdisk -n 3::-0 --typecode=3:8300 --change-name=3:'ROOT' "${DISK}" # partition 3 (Root), default start, remaining
     if [[ ! -d "/sys/firmware/efi" ]]; then # Checking for bios system
-        sgdisk -A 1:set:2 ${DISK}
+        sgdisk -A 1:set:2 "${DISK}"
     fi
-    partprobe ${DISK} # reread partition table to ensure it is correct
+    partprobe "${DISK}" # reread partition table to ensure it is correct
 
     if [[ "${DISK}" =~ "nvme" ]]; then
-        partition2=${DISK}p2
-        partition3=${DISK}p3
+        partition2="${DISK}p2"
+        partition3="${DISK}p3"
     else
-        partition2=${DISK}2
-        partition3=${DISK}3
+        partition2="${DISK}2"
+        partition3="${DISK}3"
     fi
 
-    print_the info "Formating the Disk"
+    print_the info "Formatting the Disk"
 
     if [[ "${FS}" == "btrfs" ]]; then
-        mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
-        mkfs.btrfs -L ROOT ${partition3} -f
-        mount -t btrfs ${partition3} /mnt
+        mkfs.vfat -F32 -n "EFIBOOT" "${partition2}"
+        mkfs.btrfs -L ROOT "${partition3}" -f
+        mount -t btrfs "${partition3}" /mnt
         subvolumesetup
     elif [[ "${FS}" == "ext4" ]]; then
-        mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
-        mkfs.ext4 -L ROOT ${partition3}
-        mount -t ext4 ${partition3} /mnt
+        mkfs.vfat -F32 -n "EFIBOOT" "${partition2}"
+        mkfs.ext4 -L ROOT "${partition3}"
+        mount -t ext4 "${partition3}" /mnt
     elif [[ "${FS}" == "luks" ]]; then
-        mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
-    # enter luks password to cryptsetup and format root partition
-        echo -n "${LUKS_PASSWORD}" | cryptsetup -y -v luksFormat ${partition3} -
-    # open luks container and ROOT will be place holder 
-        echo -n "${LUKS_PASSWORD}" | cryptsetup open ${partition3} ROOT -
-    # now format that container
-        mkfs.btrfs -L ROOT ${partition3}
-    # create subvolumes for btrfs
-        mount -t btrfs ${partition3} /mnt
+        mkfs.vfat -F32 -n "EFIBOOT" "${partition2}"
+        # enter luks password to cryptsetup and format root partition
+        echo -n "${LUKS_PASSWORD}" | cryptsetup -y -v luksFormat "${partition3}" -
+        # open luks container and ROOT will be place holder 
+        echo -n "${LUKS_PASSWORD}" | cryptsetup open "${partition3}" ROOT -
+        # now format that container
+        mkfs.btrfs -L ROOT "${partition3}"
+        # create subvolumes for btrfs
+        mount -t btrfs "${partition3}" /mnt
         subvolumesetup
-    # store uuid of encrypted partition for grub
-        echo ENCRYPTED_PARTITION_UUID=$(blkid -s UUID -o value ${partition3}) >> $CONFIGS_DIR/setup.conf
+        # store uuid of encrypted partition for grub
+        echo "ENCRYPTED_PARTITION_UUID=$(blkid -s UUID -o value "${partition3}")" >> "$CONFIGS_DIR/setup.conf"
     fi
 
     # mount target
@@ -265,26 +266,26 @@ createsubvolumes () {
 # @description Mount all btrfs subvolumes after root has been mounted.
 mountallsubvol () {
     print_the info "Creating the fstab and mounting the subvolumes"
-    mount -o ${MOUNT_OPTIONS},subvol=@home ${partition3} /mnt/home
-    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
-    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
-    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition3} /mnt/.snapshots
+    mount -o "${MOUNT_OPTIONS},subvol=@home" "${partition3}" /mnt/home
+    mount -o "${MOUNT_OPTIONS},subvol=@tmp" "${partition3}" /mnt/tmp
+    mount -o "${MOUNT_OPTIONS},subvol=@var" "${partition3}" /mnt/var
+    mount -o "${MOUNT_OPTIONS},subvol=@.snapshots" "${partition3}" /mnt/.snapshots
 }
 
-# @description BTRFS subvolulme creation and mounting. 
+# @description BTRFS subvolume creation and mounting. 
 subvolumesetup () {
-# create nonroot subvolumes
+    # create nonroot subvolumes
     createsubvolumes     
-# unmount root to remount with subvolume 
+    # unmount root to remount with subvolume 
     umount /mnt
-# mount @ subvolume
-    mount -o ${MOUNT_OPTIONS},subvol=@ ${partition3} /mnt
-# make directories home, .snapshots, var, tmp
+    # mount @ subvolume
+    mount -o "${MOUNT_OPTIONS},subvol=@" "${partition3}" /mnt
+    # make directories home, .snapshots, var, tmp
     mkdir -p /mnt/{home,var,tmp,.snapshots}
-# mount subvolumes
+    # mount subvolumes
     mountallsubvol
 }
-
+# @description Enable important services for BTRFS-Snapper.
 ena_essential_services () {
 
     print_the info "Enabling Essential Services"
@@ -297,12 +298,12 @@ ena_essential_services () {
     done
     
 }
-
+# @description Set up grub hooks to backup /boot when pacman transactions are made.
 setup_grub_hooks () {
-# Boot backup hook.
-print_the info "Configuring /boot backup when pacman transactions are made."
-mkdir /mnt/etc/pacman.d/hooks
-cat > /mnt/etc/pacman.d/hooks/50-bootbackup.hook <<EOF
+    # Boot backup hook.
+    print_the info "Configuring /boot backup when pacman transactions are made."
+    mkdir /mnt/etc/pacman.d/hooks
+    cat > /mnt/etc/pacman.d/hooks/50-bootbackup.hook <<EOF
 [Trigger]
 Operation = Upgrade
 Operation = Install
@@ -318,13 +319,14 @@ Exec = /usr/bin/rsync -a --delete /boot /.bootbackup
 EOF
 }
 
+# @description Verify that the OS is Arch Linux.
 arch_check() {
     if [[ ! -e /etc/arch-release ]]; then
         print_line error "ERROR! This script must be run in Arch Linux!\n"
         exit 0
     fi
 }
-
+# @description Check if pacman is available to use.
 pacman_check() {
     if [[ -f /var/lib/pacman/db.lck ]]; then
         print_line error "ERROR! Pacman is blocked."
@@ -332,7 +334,7 @@ pacman_check() {
         exit 0
     fi
 }
-
+# @description Create selection menu for user to choose options.
 select_option() {
 
     # little helpers for terminal print control and key input
@@ -396,12 +398,12 @@ select_option() {
 
     # determine current screen position for overwriting the options
     local return_value=$1
-    local lastrow=`get_cursor_row`
-    local lastcol=`get_cursor_col`
+    local lastrow=$(get_cursor_row)
+    local lastcol=$(get_cursor_col)
     local startrow=$(($lastrow - $#))
     local startcol=1
-    local lines=$( tput lines )
-    local cols=$( tput cols ) 
+    local lines=$(tput lines)
+    local cols=$(tput cols) 
     local colmax=$2
     local offset=$(( $cols / $colmax ))
 
@@ -417,7 +419,7 @@ select_option() {
     while true; do
         print_options_multicol $active_col $active_row 
         # user key control
-        case `key_input` in
+        case $(key_input) in
             enter)  break;;
             up)     ((active_row--));
                     if [ $active_row -lt 0 ]; then active_row=0; fi;;
@@ -437,7 +439,7 @@ select_option() {
 
     return $(( $active_col + $active_row * $colmax ))
 }
-
+# @description Create and copy the snapper configuration file.
 create_and_copy_snapper_config() {
     local filename="root"
     local snapper_dir="/etc/snapper/configs"
@@ -505,7 +507,7 @@ create_and_copy_snapper_config() {
     # Copy to snapper directory
     sudo mv "$filename" "$snapper_dir"
 }
-# Function to create a snapper configuration and update /etc/conf.d/snapper
+# @description Create a snapper configuration and update /etc/conf.d/snapper
 snapper_root_config() {
     local config_name="root"
     local content="## Path: System/Snapper
@@ -552,6 +554,7 @@ PS3="Please follow the prompts: "
 clear
 logo "Please select presetup settings for your system"
 
+
 ## Prepare the Disk/SSD
 filesystem
 diskpart
@@ -564,6 +567,8 @@ ena_essential_services
 setup_grub_hooks
 create_and_copy_snapper_config
 snapper_root_config
+## Arch Install on main drive
+
 
 ## Finishing up.
 print_line info "We are all done installing BTRFS-Snapper.\n"

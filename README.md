@@ -132,8 +132,6 @@ If you plan to use `snapper -c home create-config /home`, consider adding these,
 - $HOME/.local/share/containers
 - $HOME/.local/share/Trash
 
-As for how to rollback, see https://github.com/openSUSE/snapper/issues/664
-
 You simply edit `/etc/fstab`.
 
 ```sh

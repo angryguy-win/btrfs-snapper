@@ -135,8 +135,8 @@ If you plan to use `snapper -c home create-config /home`, consider adding these,
 You simply edit `/etc/fstab`.
 
 ```sh
-# UUID=153398e6-a79c-4a4f-9650-bc435b6a4182	/home     	btrfs     	rw,noatime,compress=zstd:15,ssd,space_cache,subvolid=258,subvol=/@/home,discard=async	0 0
-UUID=153398e6-a79c-4a4f-9650-bc435b6a4182	/home     	btrfs     	rw,noatime,compress=zstd:15,ssd,space_cache,subvolid=928,subvol=/@/home/.snapshots/1/snapshot,discard=async	0 0
+# UUID=153398e6-a79c-4a4f-9650-bc435b6a4182	/home   btrfs   rw,noatime,compress=zstd:15,ssd,space_cache,subvolid=258,subvol=/@/home,discard=async	0 0
+UUID=153398e6-a79c-4a4f-9650-bc435b6a4182	/home   btrfs   rw,noatime,compress=zstd:15,ssd,space_cache,subvolid=928,subvol=/@/home/.snapshots/1/snapshot,discard=async	0 0
 ```
 
 More information can be found in the arch wiki:

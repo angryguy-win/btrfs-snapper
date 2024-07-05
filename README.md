@@ -149,3 +149,10 @@ https://wiki.archlinux.org/title/snapper
 ![alt text](image-1.png)
 
 ![alt text](image.png)
+
+## Grub boot screen picture
+
+![image](https://github.com/angryguy-win/btrfs-snapper/assets/162399710/8a1a028a-052e-41fc-a820-921efecb182d)
+
+![image](https://github.com/angryguy-win/btrfs-snapper/assets/162399710/f568f015-65b3-4c81-83ff-0e51a67a882c)
+

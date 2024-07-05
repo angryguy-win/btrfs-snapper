@@ -285,7 +285,7 @@ subvolumesetup () {
     mountallsubvol
 }
 
-ena_essential_ser () {
+ena_essential_services () {
 
     print_the info "Enabling Essential Services"
 
@@ -491,6 +491,7 @@ filesystem
 print_the info "Formating Disk"
 disk_format
 
+ena_essential_services
 ## Finishing up.
 print_line info "We are all done installing BTRFS-Snapper.\n"
 print_line info "Cleaning up\n"

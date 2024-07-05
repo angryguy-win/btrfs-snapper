@@ -28,8 +28,8 @@ print_the () {
 ## print_the info "Some important message"
 ## print_the error " Some important error"
 
-info=$2
-arg1=$1
+local info=$2
+local arg1=$1
 
 if [ "$arg1" == "info" ]; then
     color=${GREEN}
@@ -53,8 +53,8 @@ print_line () {
 ## print_line info "Some important message"
 ## print_line error " Some important error"
 
-arg2=$1
-pl=$2
+local arg2=$1
+local pl=$2
 
 if [ "$arg2" == "info" ]; then
     color=${GREEN}
@@ -486,12 +486,17 @@ clear
 logo "Please select presetup settings for your system"
 
 ## Prepare the Disk/SSD
-diskpart
 filesystem
+diskpart
 print_the info "Formating Disk"
 disk_format
 
+## Install the require files/apps
+install_pre_req1
 ena_essential_services
+setup_grub_hooks
+create_snapper_config
+
 ## Finishing up.
 print_line info "We are all done installing BTRFS-Snapper.\n"
 print_line info "Cleaning up\n"

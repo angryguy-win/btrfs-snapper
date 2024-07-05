@@ -34,7 +34,7 @@ You can rollback after bad installs
 
 If you have a major failure you can load any desired snapshot from the Grub menu.
 *** Note: that all snapshot whit the exception of the current default will be READ ONLY!.
-you will need to enable write priledges to the snapshot of choise.
+you will need to enable write priledges to the snapshot of choice.
 ```
 snapper ls                  - List the snapshots
 snapper delete 20-30        - Will delete snapshots id 20 to 30  *2* Note:

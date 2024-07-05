@@ -574,8 +574,8 @@ snapper_root_config
 print_line info "We are all done installing BTRFS-Snapper.\n"
 print_line info "Cleaning up\n"
 
-rm -r $HOME/ArchTitus
-rm -r /home/$USERNAME/ArchTitus
+#rm -r $HOME/ArchTitus
+#rm -r /home/$USERNAME/ArchTitus
 
 ## Replace in the same state
 cd $pwd

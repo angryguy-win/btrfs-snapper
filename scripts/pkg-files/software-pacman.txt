@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-
 PKGS=(
     # Category ------------------------------------------------------------
     # Package name          # Descriton of the package
@@ -394,4 +392,3 @@ PKGS=(
     'lib32-gamemode'        # Optimize system performance for games
 
 )
->>>>>>> Stashed changes

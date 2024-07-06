@@ -1,6 +1,5 @@
 
 PKGS=(
-
     # SYSTEM UTILITIES ----------------------------------------------------
 
     'btrfs-progs'               # BTRFS support

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 PKGS=(
     # Category ------------------------------------------------------------
@@ -195,3 +196,202 @@ PKGS=(
     'lib32-gamemode'        # Optimize system performance for games
 
 )
+=======
+
+PKGS=(
+    # Category ------------------------------------------------------------
+    # Package name          # Descriton of the package
+    # SYSTEM --------------------------------------------------------------
+
+    'linux-lts'             # Long term support kernel
+    'which'                 # Can tell you which binary is being run
+    'tlp'                   # Advanced laptop power management
+    'zip'                   # Zip compression program
+    'unrar'                 # RAR compression program
+    'unzip'                 # Zip compression program
+    'wget'                  # Remote content retrieval
+    'openssh'               # SSH connectivity tools
+    'rsync'                 # Remote file sync utility
+    'bleachbit'             # File deletion utility
+    'cronie'                # Daemon to execute scheduled commands
+    'curl'                  # Remote content retrieva
+    'ntp'                   # Network Time Protocol to set time via network.
+    'flatpak'               # Application deployment framework for desktop apps
+    'flatseal'              # Manage Flatpak permissions
+    # 'timeshift'           # System restore utility
+    'gearlever'             # Manage AppImages with ease
+    'tldr'                  # Simplified and community
+    'lsof'                  # Lists open files
+    'libtool'               # Generic library support script
+    'grub-customizer'       # Grub customizer
+
+    # TERMINAL UTILITIES --------------------------------------------------
+
+    'bash'                  # Bash shell
+    'bash-completion'       # Tab completion for Bash
+    # 'bc'                    # Precision calculator language
+    # 'elinks'                # Terminal based web browser
+    'feh'                   # Terminal-based image viewer/manipulator
+    'file-roller'           # Archive utility
+    'gnome-keyring'         # System password storage
+    'gufw'                  # Firewall manager
+    'hardinfo'              # Hardware info app
+    'htop'                  # Process viewer
+    'inxi'                  # System information utility
+    'jq'                    # JSON parsing library
+    'jshon'                 # JSON parsing library
+    # 'speedtest-cli'         # Internet speed via terminal
+    'zenity'                # Display graphical dialog boxes via shell scripts
+    'zsh'                   # ZSH shell
+    'zsh-completions'       # Tab completion for ZSH
+    'zsh-autosuggestions'   # Autosuggestions for ZSH
+    'zsh-syntax-highlighting' # Syntax highlighting for ZSH
+    'tmux'                  # Terminal multiplexer
+    'yazi'                  # Terminal file browser
+    # 'ranger'                # Terminal file manager
+    'zoxide'                # Directory jump for ZSH
+    'fzf'                   # Fuzzy finder for terminal
+    'xclip'                 # System clipboard
+    'termius'               # SSH client and terminal emulator
+    'zellij'                # Terminal workspace
+
+    # DISK UTILITIES ------------------------------------------------------
+
+    'autofs'                # Auto-mounter
+    'exfat-utils'           # Mount exFat drives
+    'gparted'               # Disk utility
+    'gnome-disks'           # Disk utility
+    'ntfs-3g'               # Open source implementation of NTFS file system
+    'parted'                # Disk utility
+    'libdvdcss'             # DVD decryption library
+    'fuseiso'               # FUSE module to mount ISOs
+
+    # GENERAL UTILITIES ---------------------------------------------------
+
+    # 'catfish'               # Filesystem search
+    # 'conky'                 # System information viewer
+    # 'nemo'                  # Filesystem browser
+    'veracrypt'             # Disc encryption utility
+    'variety'               # Wallpaper changer
+    # 'xfburn'                # CD burning application
+    'bitwarden'             # Password manager
+    'thunar'                # Filesystem browser
+    'bazecor'               # Keyboard layout switcher
+
+    # DEVELOPMENT ---------------------------------------------------------
+
+    # 'atom'                       # Text editor
+    # 'apache'                     # Apache web server
+    'clang'                      # C Lang compiler
+    'cmake'                      # Cross-platform open-source make system
+    # 'electron'                   # Cross-platform development using Javascript
+    'git'                        # Version control system
+    'gcc'                        # C/C++ compiler
+    'glibc'                      # C libraries
+    # 'mariadb'                    # Drop-in replacement for MySQL
+    'meld'                       # File/directory comparison
+    # 'nodejs'                     # Javascript runtime environment
+    # 'npm'                        # Node package manager
+    # 'php'                        # Web application scripting language
+    # 'php-apache'                 # Apache PHP driver
+    # 'postfix'                    # SMTP mail server
+    'python'                     # Scripting language
+    # 'qtcreator'                  # C++ cross platform IDE
+    # 'qt5-examples'               # Project demos for Qt
+    'yarn'                       # Dependency management (Hyper needs this)
+    # 'visual-studio-code-bin'     # Kickass text editor
+    'github-desktop-bin'         # Github Desktop client
+    'code'                       # Visual Studio Code
+    'sublime-text-4'             # Text editor
+    
+    # WEB TOOLS -----------------------------------------------------------
+
+    'chromium'                       # Web browser
+    'firefox'                        # Web browser
+    'microsoft-edge-stable-bin'      # Web browser
+    # 'filezilla'                     # FTP Client
+    # 'brave-bin'                     # Web browser
+
+    # COMMUNICATIONS ------------------------------------------------------
+
+    # 'hexchat'               # Multi format chat
+    # 'irssi'                 # Terminal based IIRC
+    # 'element-desktop'       # Chat client
+    'discord'                # Chat client
+    'chatarino'              # Twitch chat client
+
+    # MEDIA ---------------------------------------------------------------
+
+    'lollypop'               # Music player
+    'simplescreenrecorder'   # Record your screen
+    'vlc'                    # Video player
+    'flameshot'              # Screenshots
+    'celluloid'              # Video player
+
+    # GRAPHICS AND DESIGN -------------------------------------------------
+
+    'gcolor2'               # Colorpicker
+    'gimp'                  # GNU Image Manipulation Program
+    'inkscape'              # Vector image creation app
+    'imagemagick'           # Command line image manipulation tool
+    'nomacs'                # Image viewer
+    'pngcrush'              # Tools for optimizing PNG images
+    'ristretto'             # Multi image viewer
+    'pinta'                 # Simple drawing/painting program
+
+    # PRODUCTIVITY --------------------------------------------------------
+
+    'galculator'            # Gnome calculator
+    'hunspell'              # Spellcheck libraries
+    'hunspell-en'           # English spellcheck library
+    'libreoffice-fresh'     # Libre office with extra features
+    'xpdf'                  # PDF viewer
+    'trilium-bin'           # Note taking application
+    'joplin'                # Note taking application
+    # 'obsidian'              # Note taking application
+    'gedit'                 # Text editor
+    'contacts'              # Gnome contacts
+    'gnome-calendar'        # Gnome calendar
+    'gnome-todo'            # Gnome todo
+    'gnome-weather'         # Gnome weather
+    'evolution'             # Gnome email client
+    'gnome-photos'          # Gnome photos
+    'gnome-maps'            # Gnome maps
+    'gnome-music'           # Gnome music
+    'gnome-books'           # Gnome books
+    'gnome-documents'       # Gnome documents
+    'thunderbird'           # Email client
+    'geary'                 # Email client
+    'nextcloud-client'      # Nextcloud client
+    'remmina'               # Remote desktop client
+    'gnumeric-minimal'      # Spreadsheet editor
+    'recipes'               # Gnome recipes
+    # 'obfuscate'             # Redact sensitive information
+
+    # VIRTUALIZATION ------------------------------------------------------
+
+    # 'virtualbox'            # Virtualization solution
+    # 'virtualbox-host-modules-arch'  # Required for Virtualbox
+    'virt-manager'          # Virtual Machine Manager
+    'virt-viewer'           # Virtual Machine Viewer
+    # 'docker'              # Docker container runtime
+    'gnome-boxes'           # A simple GNOME application to access virtual systems
+    'qemu'                  # KVM Quick Emulator
+    'swtpm'                 # TPM emulator for QEMU
+
+    # POST PRODUCTION -----------------------------------------------------
+
+    # 'peek'                      # GIF animation screen recorder
+
+    # Gaming --------------------------------------------------------------
+
+    'steam'                 # Gaming platform
+    'lutris'                # Open gaming platform
+    'wine-gecko'            # Wine dependencies
+    'wine-mono'             # Wine dependencies
+    'winetricks'            # Configure Wine
+    'gamemode'              # Optimize system performance for games
+    'lib32-gamemode'        # Optimize system performance for games
+
+)
+>>>>>>> Stashed changes

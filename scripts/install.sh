@@ -28,3 +28,7 @@ install_packages() {
     done
 }
 
+## Install packages from a file  ##
+install_packages "pkg-files/base-pkgs.txt"
+install_packages "pkg-files/software-pacman.txt"
+# install_packages "pkg-files/flatpak-packages.txt"

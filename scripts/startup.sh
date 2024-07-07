@@ -588,5 +588,5 @@ print_line info "Cleaning up\n"
 
 ## Replace in the same state
 cd $pwd
-print_line info "You may now wish to reboot."
+# print_line info "You may now wish to reboot."
 # exit

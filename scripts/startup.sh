@@ -213,7 +213,7 @@ create_and_copy_snapper_config() {
     " > "$filename"
 
     # Copy to snapper directory
-    sudo mv "$filename" "$snapper_dir"
+    mv "$filename" "$snapper_dir"
 }
 # @description Create a snapper configuration and update /etc/conf.d/snapper
 snapper_root_config() {
@@ -228,7 +228,7 @@ SNAPPER_CONFIGS=\"$config_name\""
     echo "$content" > snapper.txt
 
     # Move to /etc/conf.d/snapper
-    sudo mv snapper.txt /etc/conf.d/snapper
+    mv snapper.txt /etc/conf.d/snapper
 }
 
 # @description set options in setup.conf

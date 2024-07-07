@@ -112,6 +112,14 @@ thanks () {
     "
 }
 
+# @description Install pre requisites for BTRFS-Snapper.
+install_pre_req1 () {
+    print_the info "Installing Prerequisites"
+
+    print_line info "installing: gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync"
+    pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc btrfs-grub snap-pac snapper rsync
+}
+
 # @description Enable important services for BTRFS-Snapper.
 ena_essential_services () {
 
@@ -376,7 +384,7 @@ select_option() {
 # @description This function will handle file systems. At this movement we are handling only
 # btrfs and ext4. Others will be added in future.
 filesystem () {
-echo -ne "
+print_line info "
 Please Select your file system for both boot and root
 "
 options=("btrfs" "ext4" "luks" "exit")

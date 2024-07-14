@@ -114,7 +114,7 @@ snapper delete 3-4
 ----------------------------------------------------------------------------
 # Make a Snapshot the New System Root
 Providing there is no snapshot/1
-Create a directory named '1' in the /.snapshots directory.
+Create a directory named /.snapshots/1 
 ```
 sudo mkdir -v /.snapshots/1
 ```

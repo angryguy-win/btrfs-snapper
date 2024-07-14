@@ -51,7 +51,7 @@ sudo btrfs property get  /.snapshots/1/snapshot
 ## or ( sudo btrfs prop get -ts / )
 sudo btrfs property set /.snapshots /1/snapshot ro false
 ```
-1-  =  That this is the snapshot that is currently booted in.
+1-  =  the snapshot that is currently booted in.
 
 ## Check which subvol/snapshot is the default ID#
 ```

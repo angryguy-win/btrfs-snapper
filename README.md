@@ -47,7 +47,8 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 WARNING: 'grub-mkconfig' needs to run at least once to generate the snapshots (sub)menu entry in grub the main menu. After that this script can run alone to generate the snapshot entries.
 ```
-sudo btrfs property get  /.snapshots/1/snapshot  or ( sudo btrfs prop get -ts / )
+sudo btrfs property get  /.snapshots/1/snapshot
+## or ( sudo btrfs prop get -ts / )
 sudo btrfs property set /.snapshots /1/snapshot ro false
 ```
 1-  =  That this is the snapshot that is currently booted in.

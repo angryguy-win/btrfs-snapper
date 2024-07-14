@@ -29,28 +29,169 @@ which  can be found:
 ```
 /etc/snapper/configs/root
 ```
+# Installing and cofiguring snapper/grub
 
-You can rollback after bad installs
+1. Install the OS of choice:
+2. Create the Additional Subvolumes
+3. Install and Configure Snapper
+4. Intstall and Configure Grub-Btrfs
+5. Create a system Root Snapshot and set tit as default
+6. Test Snapper 
+7. Enable automatic Timeline Snapshots
 
-If you have a major failure you can load any desired snapshot from the Grub menu.
-*** Note: that all snapshot whit the exception of the current default will be READ ONLY!.
-you will need to enable write priledges to the snapshot of choice.
+
+## install grub-btrfs
 ```
-snapper ls                  - List the snapshots
-snapper delete 20-30        - Will delete snapshots id 20 to 30  *2* Note:
-snapper rollback 20..21     - Will rollback from 20 to 21 reverse the number to chanbe back 21..20
+sudo systemctl enable --now grub-btrfsd
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+WARNING: 'grub-mkconfig' needs to run at least once to generate the snapshots (sub)menu entry in grub the main menu. After that this script can run alone to generate the snapshot entries.
+```
+sudo btrfs property get  /.snapshots/1/snapshot  or ( sudo btrfs prop get -ts / )
+sudo btrfs property set /.snapshots /1/snapshot ro false
+```
+1-  =  That this is the snapshot that is currently booted in.
 
-sudo btrfs subvol show /    - Show a list of the of the Subvolumes and other info.
-sudo btrfs subvol list /    - List all the subvolumes and there ID's.
-sudo snapper -c root create -d "**Base system install**"    - Manual snapshots
+## Check which subvol/snapshot is the default ID#
+```
+sudo btrfs subvol get-defualt /
+
+sudo btrfs subvol list /
+```
+## Set the Default so grub can see the snapshot ID# to boot
+```
+btrfs subvolume set-default 263 /
+```
+As you can see, the /.snapshots/1/snapshot subvolume is also visible as snapshot #1 in snapper. The asterisk (*) indicates that this snapshot is the default and is currently active.
+
+----------------------------------------------------------------------------
+## Useful Commands
+```
+snapper list-configs
+snapper delete-config
+snapper get-config
+snapper list
+
+snapper -c root create -d "***Initial Manual snapshot***"
+
+btrfs subvolume delete /.snapshots/1/snapshot
+btrfs subvolume delete /.snapshots
+
+sudo btrfs subvolume list /
+sudo btrfs subvolume show /
+
+snapper status 2..3
+sudo snapper undochange 2..3
+sudo snapper undochange 3..2
+```
+## To see the difference of a file to compare snapshot 3 to 0
+```
+snapper diff 3..0 /etc/hosts
+sudo snapper undochange 3..0 /etc/hosts
+```
+## Create Manual Pre-Post Snapshots and Undo the Changes
+```
+snapper -c root create -t pre -c number -d 'Pre Color Picker'
+```
+## After install and makin changes 
+```
+snapper -c root create -t post --pre-number 4 -c number -d 'Post Color Picker'
+```
+```
+snapper -c root delete 4-7
+snapper -c home delete 1-2
+
+sudo snapper rollback
+sudo reboot
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+sudo btrfs filesystem du -s --human-readable /.snapshots/*/snapshot
+
+snapper delete 1
+snapper delete 3-4
+```
+----------------------------------------------------------------------------
+# Make a Snapshot the New System Root
+
+## Providing there is no snapshot/1
+## Create a directory named '1' in the /.snapshots directory.
+```
+sudo mkdir -v /.snapshots/1
+```
+## Copy the info.xml file from /.snapshots/2/ to /.snapshots/1/.
+```
+sudo cp -v /.snapshots/2/info.xml /.snapshots/1/
+```
+## Edit the info.xml
+```
+<?xml version="1.0"?>
+<snapshot>
+  <type>single</type>
+  <num>1</num>
+  <date>2024-04-26 15:18:14</date>
+  <description>new root subvolume</description>
+</snapshot>
+```
+## Create a read-write subvolume snapshot of snapshot #2 in the /.snapshots/1/ directory.
+```
+sudo btrfs subvolume snapshot /.snapshots/2/snapshot /.snapshots/1/snapshot
+```
+## Get the subvolid of the /.snapshots/1/snapshot subvolume.
+```
+sudo btrfs inspect-internal rootid /.snapshots/1/snapshot
+```
+Output:
+#> 276
+
+## Using subvolid 276, set the /.snapshots/1/snapshot subvolume as the default subvolume for the root (/) 						
+## filesystem.
+```
+sudo btrfs subvolume set-default 276 /
+```
+## Then reboot.
+```
+sudo reboot
+```
+## After rebooting, confirm that the /.snapshots/1/snapshot subvolume is indeed the default for the / 
+## filesystem.
+```
+sudo btrfs subvolume get-default /
+```
+## And is writable.
+```
+sudo btrfs property get -ts /
+```
+## Take a look at the snapper now.
+```
+snapper ls
+```
+## As you can see, snapshot #1 is the default. You can now delete the remaining snapshots.
+
+## Update grub.cfg file
+```
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
-*2* Note: When deleting a pre snapshot, you should always delete its corresponding post snapshot and vice versa.
+# Enable Automatic Timeline Snapshots
+```
+sudo snapper -c home set-config TIMELINE_CREATE=no
+sudo systemctl enable --now snapper-timeline.timer
+sudo systemctl enable --now snapper-cleanup.timer
+```
 
-*** Note:
+```
+echo 'PRUNENAMES = ".snapshots"' | sudo tee -a /etc/updatedb.conf
+```
 
-    When taking a snapshot of @ (mounted at the root /), other subvolumes are not included in the snapshot. Even if a subvolume is nested below @, a snapshot of @ will not include it. 
-    Create snapper configurations for additional subvolumes besides @ of which you want to keep snapshots.
+## sync up grub
+paru -S update-grub
+sudo update-grub
+
+# There are a couple of packages used for automatically creating snapshots upon a pacman transaction:
+
+- snap-pac — Makes pacman automatically use snapper to create pre/post snapshots like openSUSE's YaST. Uses pacman hooks.
+- grub-btrfs — Includes a daemon (grub-btrfsd) that can be enabled via systemctl to look for new snapshots and automatically includes them in the GRUB menu.
+
 
 ## System rollback the 'Arch Way'
 Snapper includes a rollback tool, but on Arch systems the preferred method is a manual rollback.
@@ -86,57 +227,11 @@ Unmount /mnt.
 Reboot and rollback!
 
 
-
-You can proceed to install snapper-gui and btrfs-assitant after the install to help
-manage the snapshot nad your btrfa drive.
-
-# Backing-up
-The tool used for backing up from BTRFS to another BTRFS is `snap-sync`. It is as simple as running
-
-```sh
-sudo snap-sync
+## Other things to consider 
 ```
-
-And it is interactive.
-
-However, this command fails for me after some repeated runs, so I have to use the good old rsync.
-
-```sh
-rsync -axXv --exclude-from=$HOME/.rsync/excluded.txt ~/ $EXT_HD_PATH/ (--dry-run)
-```
-
-
-# rollback
-
-## For `/` (root) snapshots
-
-```sh
-sudo snapper list
-sudo snapper rollback $n
-sudo reboot
-```
-
-If you can't install or update because of lock file, you may need to delete it.
-
-```sh
-sudo rm /var/lib/pacman/db.lck
-```
-
-## For non-root snapshots, e.g. `/home`
-
-If you plan to use `snapper -c home create-config /home`, consider adding these, but use a full path for $HOME (i.e. home/$USER)
-- $HOME/.cache
-- $HOME/.var
-- $HOME/Downloads
-- $HOME/.local/share/Steam
-- $HOME/.local/share/containers
-- $HOME/.local/share/Trash
-
-You simply edit `/etc/fstab`.
-
-```sh
-# UUID=153398e6-a79c-4a4f-9650-bc435b6a4182	/home   btrfs   rw,noatime,compress=zstd:15,ssd,space_cache,subvolid=258,subvol=/@/home,discard=async	0 0
-UUID=153398e6-a79c-4a4f-9650-bc435b6a4182	/home   btrfs   rw,noatime,compress=zstd:15,ssd,space_cache,subvolid=928,subvol=/@/home/.snapshots/1/snapshot,discard=async	0 0
+inotify-tools  ?? Do I need this
+snap-pac-grub
+btrfs-asssitant
 ```
 
 More information can be found in the arch wiki:

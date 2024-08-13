@@ -1,6 +1,8 @@
 # BTRFS Snapper
 
-This is currently a work in progress 
+This is currently a work in progress!!!!!
+
+This project is not finish and still in development use at your own RISK!!!
 
 
 ## Boot Arch ISO

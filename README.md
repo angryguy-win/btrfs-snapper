@@ -6,18 +6,9 @@ This project is not finish and still in development use at your own RISK!!!
 
 
 ## Boot Arch ISO
-From initial Prompt type the following commands:
-
-```
-pacman -Sy git
-git clone https://github.com/angryguy-win/btrfs-snapper.git
-cd btrfs-snapper
-./btrfs-snapper.sh
-```
+Using the arch live iso
 
 ## System Description
-This is completely automated arch script. 
-It includes prompts to select your desired disk drive to install and setup
 BTRFS, Snapper, btrfs-grub, snap-pac
 
 Snapper is a tool for managing BTRFS snapshots. It can create and restore snapshots, and provides scheduled auto-snapping. Snap-pac provides a Pacman hook that uses Snapper to create pre- and post- BTRFS snapshots triggered by use of the package manager.

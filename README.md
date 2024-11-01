@@ -242,4 +242,13 @@ https://wiki.archlinux.org/title/snapper
 
 ![image](https://github.com/angryguy-win/btrfs-snapper/assets/162399710/a95be1b2-1940-487b-afcd-0c875aee19c2)
 
+Reference info:
+https://www.lorenzobettini.it/2022/07/timeshift-and-grub-btrfs-in-linux-arch/
+https://wiki.archlinux.org/title/Btrfs
+https://www.youtube.com/watch?v=aAAUU3t55YQ
+https://www.lorenzobettini.it/2023/03/snapper-and-grub-btrfs-in-arch-linux/
+https://www.dwarmstrong.org/archlinux-install/
+https://www.dwarmstrong.org/btrfs-snapshots-rollbacks/
+
+
 
